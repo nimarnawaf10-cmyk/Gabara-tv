@@ -852,4 +852,7 @@ class MainActivity : AppCompatActivity() {
                 val r = radius * dot.normDistance
                 val x = cx + (r * sin(dot.bearingRad)).toFloat()
                 val y = cy - (r * cos(dot.bearingRad)).toFloat()
-                canvas.drawCircle(x, y, 13f, if (dot.isMine) myRoomPaint else roomPaint)
+                canvas.drawCircle(x, y, 13f, if (dot.isMine) myRoomPaint else roomPaint)}
+        }
+    }
+}
