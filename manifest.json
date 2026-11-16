@@ -1,0 +1,19 @@
+{
+  "id": "/Gabara-tv/",
+  "name": "Gabara TV",
+  "short_name": "Gabara TV",
+  "description": "تطبيق Gabara TV للبث المباشر",
+  "start_url": "/Gabara-tv/",
+  "scope": "/Gabara-tv/",
+  "display": "standalone",
+  "background_color": "#070b14",
+  "theme_color": "#070b14",
+  "icons": [
+    {
+      "src": "file_00000000b57c8210bbc5324d422d131f.png",
+      "sizes": "192x192 512x512 1024x1024",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
