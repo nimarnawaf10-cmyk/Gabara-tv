@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="theme-color" content="#070b14" />
+<title>Gabara TV</title>
+<link rel="manifest" href="manifest.json" />
+<link rel="icon" type="image/png" href="file_00000000b57c8210bbc5324d422d131f.png" />
+<link rel="apple-touch-icon" href="file_00000000b57c8210bbc5324d422d131f.png" />
+<style>
+:root{--bg:#070b14;--s1:#111827;--s2:#1a2336;--bd:#25324d;--p:#f59e0b;--ac:#38bdf8;--tx:#f8fafc;--mu:#94a3b8}
+*{box-sizing:border-box;margin:0;padding:0;font-family:Tahoma,Arial,system-ui,sans-serif}
+body{background:var(--bg);color:var(--tx);padding-bottom:40px;min-height:100vh}
+.topbar{background:rgba(17,24,39,.95);border-bottom:1px solid var(--bd);padding:12px 14px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:50}
+.logo{font-size:20px;font-weight:700;color:var(--p)}
+.refresh-btn{background:var(--s2);color:var(--tx);border:1px solid var(--bd);border-radius:10px;padding:7px 12px;font-size:13px;font-weight:700;cursor:pointer}
+.main{max-width:960px;margin:0 auto;padding:12px}
+.player-card{background:#000;border:1px solid var(--bd);border-radius:16px;overflow:hidden;margin-bottom:14px}
+.video-wrap{position:relative;width:100%;aspect-ratio:16/9;background:#000}
+video{width:100%;height:100%;display:block;background:#000}
+.player-placeholder{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px;background:radial-gradient(circle,#162036,#070b14);color:var(--mu);gap:8px}
+.now-playing{background:var(--s1);padding:10px 14px;display:flex;justify-content:space-between;align-items:center;gap:10px;border-top:1px solid var(--bd)}
+.np-title{font-size:15px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.np-status{font-size:12px;color:var(--mu);margin-top:2px}
+.live-dot{font-size:11px;font-weight:700;padding:4px 9px;border-radius:999px;background:rgba(239,68,68,.2);color:#f87171;border:1px solid rgba(239,68,68,.45);display:none}
+.live-dot.active{display:inline-block}
+.search-input{width:100%;padding:11px 14px;border-radius:12px;border:1px solid var(--bd);background:var(--s1);color:var(--tx);font-size:14px;outline:none;margin-bottom:12px}
+.cats-bar{display:flex;gap:8px;overflow-x:auto;padding-bottom:8px;margin-bottom:12px;scrollbar-width:none}
+.cats-bar::-webkit-scrollbar{display:none}
+.cat-pill{white-space:nowrap;padding:9px 14px;border-radius:999px;background:var(--s1);border:1px solid var(--bd);color:var(--mu);font-size:13px;font-weight:700;cursor:pointer;flex-shrink:0}
+.cat-pill.active{background:var(--p);color:#070b14;border-color:var(--p)}
+.section-head{display:flex;justify-content:space-between;margin-bottom:10px;font-size:14px;color:var(--mu)}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+@media(min-width:640px){.grid{grid-template-columns:repeat(3,1fr)}}
+.ch-card{background:var(--s1);border:1px solid var(--bd);border-radius:14px;padding:12px 10px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px;cursor:pointer}
+.ch-card.playing{border-color:var(--p);background:linear-gradient(180deg,rgba(245,158,11,.14),var(--s1))}
+.ch-logo{width:56px;height:56px;border-radius:14px;background:var(--s2);border:1px solid var(--bd);display:flex;align-items:center;justify-content:center;font-size:24px;overflow:hidden}
+.ch-logo img{width:100%;height:100%;object-fit:cover}
+.ch-name{font-size:14px;font-weight:700;width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ch-cat{font-size:11px;color:var(--ac);background:rgba(56,189,248,.12);padding:3px 8px;border-radius:999px;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.empty-box{grid-column:1/-1;text-align:center;padding:30px 14px;background:var(--s1);border:1px solid var(--bd);border-radius:14px;color:var(--mu);font-size:14px}
+</style>
+<script defer src="app.js"></script>
+<script async src="https://cdn.jsdelivr.net/npm/hls.js@1/dist/hls.min.js"></script>
+</head>
+<body>
+<header class="topbar"><div class="logo">📺 Gabara TV</div><button class="refresh-btn" id="btnRefresh">🔄 تحديث</button></header>
+<main class="main">
+  <section class="player-card">
+    <div class="video-wrap">
+      <video id="videoPlayer" controls playsinline></video>
+      <div id="placeholder" class="player-placeholder"><div style="font-size:42px">📡</div><div style="font-size:15px;color:#f8fafc;font-weight:700">أهلاً بك في Gabara TV</div><div style="font-size:13px">اضغط على أي قناة بالأسفل لبدء المشاهدة</div></div>
+    </div>
+    <div class="now-playing"><div style="min-width:0;flex:1"><div id="npTitle" class="np-title">لم يتم اختيار قناة بعد</div><div id="npStatus" class="np-status">اختر قسماً أو قناة</div></div><span id="liveDot" class="live-dot">● مباشر</span></div>
+  </section>
+  <input type="text" id="searchInput" class="search-input" placeholder="🔍 ابحث عن قناة..." />
+  <div id="catsBar" class="cats-bar"></div>
+  <div class="section-head"><span id="listLabel">كل القنوات</span><span id="chCounter">0 قناة</span></div>
+  <div id="channelsGrid" class="grid"><div class="empty-box">جاري تحميل القنوات...</div></div>
+</main>
+</body>
+</html>
